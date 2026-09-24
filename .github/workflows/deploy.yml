@@ -61,7 +61,7 @@ jobs:
             grep -oE '(href|src)="[^"]*"' dist/index.html | head -20
             exit 1
           fi
-          for f in robots.txt sitemap.xml og.png favicon.svg 404.html; do
+          for f in robots.txt sitemap.xml og.png favicon.svg 404.html brand/index.html brand/logo/symbol.svg; do
             test -s "dist/$f" || { echo "::error::dist/$f is missing"; exit 1; }
           done
           # Jekyll would otherwise skip files and folders that start with _.

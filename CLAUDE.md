@@ -21,6 +21,25 @@ to main.
    and the org runner group does not serve public repos. The reasoning is in the
    header of `.github/workflows/deploy.yml`. Same exception as agentenx.com.
 
+## Brand identity
+
+The logo is GENERATED. `scripts/brand/build.py` draws the symbol and the
+wordmark with shapely and writes every SVG in `public/brand/logo/`, the
+exploration in `public/brand/concepts/`, `public/favicon.svg` and
+`src/brand/marks.ts` (the paths React uses). `scripts/brand/render.sh` makes
+the PNGs. Never hand-edit a generated file: change the geometry and re-run both.
+
+    python3 -m venv .venv && .venv/bin/pip install -r scripts/brand/requirements.txt
+    .venv/bin/python scripts/brand/build.py && ./scripts/brand/render.sh
+
+- The symbol has TWO cuts. `SYMBOL` from 48px, `SYMBOL_SMALL` at 32px and below
+  (wider exit, so the passage does not close up). `LogoMark` picks by size.
+- The blue to violet gradient lives only inside the passage. The app icon tile
+  also has a graphite top light so it shows on dark wallpapers. Nowhere else.
+- The wordmark is drawn, not a font. Never retype "LANTHER" in a font as a logo.
+- The brand guidelines page is a second Vite entry, `brand/index.html`, served
+  at /lanther.ai/brand/.
+
 ## Design system
 
 Dark only. Tokens are RGB triplets in `src/styles/index.css`, exposed to Tailwind

@@ -42,7 +42,7 @@ export function FinalCTA() {
       />
       <div className="container-site relative text-center">
         <Reveal>
-          <LogoMark size={44} className="mx-auto" />
+          <LogoMark size={56} tone="color-dark" className="mx-auto" />
           <h2 id="final-title" className="mx-auto mt-8 max-w-3xl text-balance text-[36px] font-semibold leading-[1.05] tracking-tightest text-ink sm:text-[52px] lg:text-[60px]">
             Your infrastructure should connect itself.
           </h2>

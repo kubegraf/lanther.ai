@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -13,5 +14,12 @@ export default defineConfig({
   build: {
     target: "es2020",
     cssCodeSplit: false,
+    rollupOptions: {
+      // Two pages: the site, and the brand guidelines at /brand/.
+      input: {
+        main: resolve(__dirname, "index.html"),
+        brand: resolve(__dirname, "brand/index.html"),
+      },
+    },
   },
 });
