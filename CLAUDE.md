@@ -23,22 +23,25 @@ to main.
 
 ## Brand identity
 
+The logo is "Vector": a forward-leaning L cut once at the heel on the diagonal.
+The site uses the FLAT DARK-COLOUR version: white upright, blade lit blue to
+violet, white wordmark. `LogoMark`/`Logo` default to that tone.
+
 The logo is GENERATED. `scripts/brand/build.py` draws the symbol and the
-wordmark with shapely and writes every SVG in `public/brand/logo/`, the
-exploration in `public/brand/concepts/`, `public/favicon.svg` and
-`src/brand/marks.ts` (the paths React uses). `scripts/brand/render.sh` makes
-the PNGs. Never hand-edit a generated file: change the geometry and re-run both.
+wordmark with shapely and writes every SVG in `public/brand/logo/`,
+`public/favicon.svg` and `src/brand/marks.ts` (the paths React uses).
+`scripts/brand/render.sh` makes the PNGs. Never hand-edit a generated file.
 
     python3 -m venv .venv && .venv/bin/pip install -r scripts/brand/requirements.txt
     .venv/bin/python scripts/brand/build.py && ./scripts/brand/render.sh
 
-- The symbol has TWO cuts. `SYMBOL` from 48px, `SYMBOL_SMALL` at 32px and below
-  (wider exit, so the passage does not close up). `LogoMark` picks by size.
-- The blue to violet gradient lives only inside the passage. The app icon tile
-  also has a graphite top light so it shows on dark wallpapers. Nowhere else.
-- The wordmark is drawn, not a font. Never retype "LANTHER" in a font as a logo.
+- The blue to violet gradient is on the blade only. Never the upright, never the wordmark.
+- The `*-lit*` files (a glowing beam through the cut) are for dark backgrounds at
+  64px and up: launch visuals, slides, splash screens. Everywhere else, flat.
+- The wordmark is drawn, not a font. The A is a lambda. Never retype it.
 - The brand guidelines page is a second Vite entry, `brand/index.html`, served
-  at /lanther.ai/brand/.
+  at /lanther.ai/brand/. The exploration sheets are static PNGs in
+  `public/brand/exploration/`.
 
 ## Design system
 

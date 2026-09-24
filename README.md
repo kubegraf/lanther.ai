@@ -33,7 +33,7 @@ src/
   lib/hooks.ts         useSequence, useTickerInView, useScrolled, useMediaQuery
 public/                favicon, icons, og.png, robots.txt, sitemap.xml, 404.html
 scripts/og.html        source for public/og.png, rendered by scripts/render-og.sh
-scripts/brand/         logo generator: geometry, wordmark, build and render
+scripts/brand/         logo generator: build.py (symbol, wordmark, lit versions), render.sh (PNGs)
 brand/index.html       the brand guidelines page (second Vite entry)
 ```
 

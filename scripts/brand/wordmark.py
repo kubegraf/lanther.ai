@@ -15,14 +15,14 @@ def diag(x_top, x_bot, w_perp, y0=0, y1=100, anchor="left"):
     hw = w_perp * L / dy  # horizontal width that yields w_perp perpendicular
     return Polygon([(x_top, y0), (x_top + hw, y0), (x_bot + hw, y1), (x_bot, y1)])
 
-def letters(S=15.0, k_h=0.9, fillet=0.42, wx=1.0, lf=0.95):
+def letters(S=15.0, k_h=0.9, fillet=0.42, wx=1.0, lf=0.95, lam=False):
     Sh = S * k_h           # horizontals slightly thinner, so they look equal
     Sd = S * 1.02          # diagonals
     G = {}
     # L — the inside corner carries the passage's curve, larger than the others
     W = wx * 58
     L = unary_union([box(0, 0, S, 100), box(0, 100 - Sh, W, 100)])
-    G["L"] = (closing(L, S * lf), W)
+    G["L"] = (closing(L, S * lf) if lf else L, W)
     # A — flat apex, crossbar set low so the counter reads as an opening
     W = wx * 84
     apex = S * 1.15
@@ -32,7 +32,7 @@ def letters(S=15.0, k_h=0.9, fillet=0.42, wx=1.0, lf=0.95):
     rd = affinity.scale(ld, xfact=-1, origin=(W/2, 50))
     bar_y = 66
     bar = box(0, bar_y, W, bar_y + Sh).intersection(outer)
-    A = unary_union([ld, rd, bar]).intersection(box(0, 0, W, 100))
+    A = unary_union([ld, rd] + ([] if lam else [bar])).intersection(box(0, 0, W, 100))
     G["A"] = (A, W)
     # N
     W = wx * 76
@@ -62,7 +62,7 @@ def letters(S=15.0, k_h=0.9, fillet=0.42, wx=1.0, lf=0.95):
     G["R"] = (R, W)
     out = {}
     for ch, (g, w) in G.items():
-        r = S * fillet if ch != "L" else 0
+        r = S * fillet if (ch != "L" and fillet) else 0
         out[ch] = ((closing(g, r) if r else g), w)
     return out
 

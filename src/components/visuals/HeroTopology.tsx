@@ -3,7 +3,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { ROWS, VIEW, edges, nodes, phases, type Phase, type TopoEdge, type TopoNode } from "../../data/topology";
 import { useTickerInView } from "../../lib/hooks";
 import { c, MONO } from "../../lib/colors";
-import { BRAND_COLORS, SYMBOL_SMALL } from "../../brand/marks";
+import { BRAND_COLORS, SYMBOL } from "../../brand/marks";
 
 const PHASE_MS = 2600;
 
@@ -161,7 +161,7 @@ function DesktopGraph({ phase, latency, reduced }: { phase: Phase; latency: Reco
           <stop offset="0" stopColor={c("accent")} />
           <stop offset="1" stopColor={c("violet")} />
         </linearGradient>
-        <linearGradient id="passage-lit" x1="18" y1="0" x2="48" y2="31" gradientUnits="userSpaceOnUse">
+        <linearGradient id="heel-lit" x1="0" y1="48" x2="20" y2="28" gradientUnits="userSpaceOnUse">
           <stop stopColor={BRAND_COLORS.blue} />
           <stop offset="1" stopColor={BRAND_COLORS.violet} />
         </linearGradient>
@@ -263,8 +263,8 @@ function NodeBox({ node: n, phase, reduced }: { node: TopoNode; phase: Phase; re
         <rect x={x} y={y} width={n.w} height={n.h} rx={14} fill={c("panel")} stroke="url(#core-stroke)" strokeWidth={1.4} />
         <g transform={`translate(${x + 16} ${y + 20})`}>
           <g transform="scale(0.6667)">
-            <path d={SYMBOL_SMALL.body} fill={c("ink")} />
-            <path d={SYMBOL_SMALL.passage} fill="url(#passage-lit)" />
+            <path d={SYMBOL.body} fill="#FFFFFF" />
+            <path d={SYMBOL.heel} fill="url(#heel-lit)" />
           </g>
         </g>
         <text x={x + 60} y={y + 32} fontSize="15" fontWeight="600" fill={c("ink")}>

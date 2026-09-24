@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Activity, Book, GitBranch, LayoutGrid, Network, Search, Settings, Star } from "lucide-react";
 import { LogoMark, Wordmark } from "../components/ui/Logo";
 import { Reveal } from "../components/ui/Section";
-import { BRAND_COLORS, SYMBOL_SMALL } from "../brand/marks";
+import { BRAND_COLORS, SYMBOL } from "../brand/marks";
 
 /*
  * The identity in the places it will actually live. These are mock-ups drawn in
@@ -77,7 +77,7 @@ function Navbar({ dark }: { dark?: boolean }) {
   return (
     <div className={`flex h-14 items-center justify-between px-5 ${dark ? "bg-[#07080B]" : "border-t border-black/5 bg-white"}`}>
       <span className="flex items-center gap-2.5">
-        <LogoMark size={22} tone={dark ? "white" : "ink"} />
+        <LogoMark size={22} tone={dark ? "color-dark" : "color"} />
         <Wordmark height={13} color={fg} />
       </span>
       <span className={`hidden gap-5 text-[12px] sm:flex ${dark ? "text-[#9AA3B5]" : "text-[#4B5160]"}`}>
@@ -99,7 +99,8 @@ function Tabs({ dark }: { dark?: boolean }) {
     <div className={`flex items-end gap-1 overflow-hidden rounded-xl px-2 pt-2 ${bar}`}>
       <div className={`flex h-9 w-56 min-w-0 shrink items-center gap-2 rounded-t-lg px-3 text-[12px] ${active}`}>
         <svg width={16} height={16} viewBox="0 0 48 48" aria-hidden="true">
-          <path d={SYMBOL_SMALL.body} fill={dark ? "#FFFFFF" : INK} />
+          <path d={SYMBOL.body} fill={dark ? "#FFFFFF" : INK} />
+          <path d={SYMBOL.heel} fill={dark ? "#FFFFFF" : INK} />
         </svg>
         <span className="truncate">Lanther · Connect your infrastructure</span>
       </div>
@@ -203,7 +204,8 @@ function Terminal() {
     <div className="overflow-hidden rounded-2xl border border-white/[0.09] bg-[#0A0B0F]">
       <div className="flex items-center justify-center gap-2 border-b border-white/[0.07] py-2.5 text-[12px] text-subtle">
         <svg width={14} height={14} viewBox="0 0 48 48" aria-hidden="true">
-          <path d={SYMBOL_SMALL.body} fill="#9AA3B5" />
+          <path d={SYMBOL.body} fill="#9AA3B5" />
+          <path d={SYMBOL.heel} fill="#9AA3B5" />
         </svg>
         lanther · zsh
       </div>
@@ -257,17 +259,8 @@ function Cards() {
           <p className="mt-2 font-mono text-[9px] text-[#4B5160]">hello@lanther.ai · lanther.ai</p>
         </div>
       </div>
-      <div className="relative aspect-[1.75] overflow-hidden rounded-lg bg-[#0B0D12] shadow-[0_12px_30px_-12px_rgb(0_0_0/0.5)]">
-        {/* The passage runs off the card: the mark at architectural scale. */}
-        <svg viewBox="0 0 48 48" className="absolute -right-[18%] -top-[40%] h-[170%] w-auto" aria-hidden="true">
-          <defs>
-            <linearGradient id="card-g" x1="18" y1="0" x2="48" y2="31" gradientUnits="userSpaceOnUse">
-              <stop stopColor={BRAND_COLORS.blue} />
-              <stop offset="1" stopColor={BRAND_COLORS.violet} />
-            </linearGradient>
-          </defs>
-          <path d="M13.5 0H22.5V17.5A11 11 0 0 0 33.5 28.5H48V33H33.5A20 20 0 0 1 13.5 13Z" fill="url(#card-g)" />
-        </svg>
+      <div className="flex aspect-[1.75] items-center justify-center rounded-lg bg-[#0B0D12] shadow-[0_12px_30px_-12px_rgb(0_0_0/0.5)]">
+        <LogoMark size={96} className="h-[62%] w-auto" />
       </div>
     </div>
   );
@@ -281,7 +274,7 @@ function Slides() {
         <Wordmark height={28} color="#FFFFFF" className="h-auto w-[36%]" />
       </div>
       <div className="flex aspect-video flex-col justify-between rounded-2xl bg-white p-[6%]">
-        <LogoMark size={40} tone="ink" className="h-auto w-[7%]" />
+        <LogoMark size={40} tone="color" className="h-auto w-[7%]" />
         <p className="text-balance text-[clamp(18px,3.2vw,34px)] font-semibold leading-tight tracking-tight text-[#0B0D12]">
           The networking layer
           <br />
