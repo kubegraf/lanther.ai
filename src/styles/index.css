@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens. The site is dark only, on purpose: an infrastructure product
+ * people read next to a terminal. Values are RGB triplets so Tailwind can apply
+ * alpha (`bg-accent/10`).
+ *
+ * Contrast against --bg (#07080B), measured:
+ *   ink    #EDEFF5  18.1:1
+ *   muted  #9AA3B5   8.2:1
+ *   subtle #767E90   4.9:1  (AA for body text, keep it for secondary text only)
+ *   accent #6E8BFF   6.3:1
+ */
+:root {
+  color-scheme: dark;
+  --bg: 7 8 11;
+  --elev: 12 14 19;
+  --panel: 17 20 27;
+  --ink: 237 239 245;
+  --muted: 154 163 181;
+  --subtle: 118 126 144;
+  --accent: 110 139 255;
+  --violet: 155 123 255;
+  --ok: 62 207 142;
+  --warn: 245 181 68;
+  --err: 242 85 90;
+  --line: 255 255 255;
+  --nav-h: 64px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    font-feature-settings: "cv11", "ss01", "ss03";
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: rgb(var(--accent) / 0.35);
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  code,
+  kbd,
+  pre {
+    @apply font-mono;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-8;
+  }
+  .hairline {
+    border-color: rgb(var(--line) / 0.08);
+  }
+  .hairline-strong {
+    border-color: rgb(var(--line) / 0.14);
+  }
+  .panel {
+    @apply rounded-2xl border bg-elev/80;
+    border-color: rgb(var(--line) / 0.08);
+  }
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-accent;
+  }
+  .text-gradient {
+    background: linear-gradient(92deg, rgb(var(--ink)) 20%, rgb(var(--accent)) 70%, rgb(var(--violet)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Subtle engineering grid, faded at the edges so it never reads as a pattern. */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgb(var(--line) / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--line) / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.dash-flow {
+  animation: dash-flow 1.2s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+
+/*
+ * Second belt for reduced motion. Components also check useReducedMotion() and
+ * render their final state, because the end state is the informative one.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

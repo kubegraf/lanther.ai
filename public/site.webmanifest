@@ -1,0 +1,12 @@
+{
+  "name": "Lanther",
+  "short_name": "Lanther",
+  "start_url": "/lanther.ai/",
+  "display": "browser",
+  "background_color": "#07080B",
+  "theme_color": "#07080B",
+  "icons": [
+    { "src": "/lanther.ai/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/lanther.ai/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Source for public/og.png. Re-render with scripts/render-og.sh. -->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: Inter; src: url(../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2) format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: JBM; src: url(../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2) format("woff2"); font-weight: 100 800; }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #07080b; color: #edeff5; font-family: Inter; position: relative; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, #000 20%, transparent 75%); }
+  .glow { position: absolute; width: 900px; height: 500px; left: 420px; top: -180px; background: radial-gradient(closest-side, rgba(110,139,255,.28), rgba(155,123,255,.08) 60%, transparent); filter: blur(20px); }
+  .wrap { position: absolute; inset: 0; padding: 72px 80px; display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
+  h1 { margin-top: auto; font-size: 72px; line-height: 1.04; letter-spacing: -0.04em; font-weight: 600; max-width: 1060px; }
+  h1 span { background: linear-gradient(92deg, #edeff5 10%, #6e8bff 60%, #9b7bff); -webkit-background-clip: text; color: transparent; }
+  .meta { margin-top: 36px; font-family: JBM; font-size: 20px; color: #767e90; display: flex; gap: 18px; }
+  .meta b { color: #9aa3b5; font-weight: 400; }
+  .url { position: absolute; right: 80px; top: 80px; font-family: JBM; font-size: 20px; color: #9aa3b5; }
+</style>
+</head>
+<body>
+  <div class="grid"></div><div class="glow"></div>
+  <div class="wrap">
+    <div class="brand">
+      <svg width="48" height="48" viewBox="0 0 32 32" fill="none"><defs><linearGradient id="g" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#8EA5FF"/><stop offset="1" stop-color="#9B7BFF"/></linearGradient></defs><rect x="1" y="1" width="30" height="30" rx="8" fill="#10131A" stroke="url(#g)" stroke-opacity=".55"/><path d="M11 8.5v10.5a4 4 0 0 0 4 4h8.5" stroke="url(#g)" stroke-width="2.6" stroke-linecap="round"/><circle cx="11" cy="8.5" r="2.6" fill="#EDEFF5"/><circle cx="23.5" cy="23" r="2.6" fill="url(#g)"/></svg>
+      Lanther
+    </div>
+    <h1>Connect your infrastructure.<br /><span>Let AI operate the network.</span></h1>
+    <div class="meta"><b>AWS</b>·<b>GCP</b>·<b>Azure</b>·<b>Kubernetes</b>·<b>Private networks</b></div>
+  </div>
+  <div class="url">lanther.ai</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+# Build the Lanther site and publish it to GitHub Pages.
+#
+# ⚠ THIS REPO USES ubuntu-latest, NOT kubegraf-org-runners. Read this before
+# "fixing" it back.
+#
+# The org rule is that every workflow runs on the self-hosted pool. It cannot
+# apply here. The Default runner group is `allows_public_repositories: false`,
+# and this repo has to be PUBLIC for https://kubegraf.github.io/lanther.ai/ to
+# load without a GitHub login. A job here that targets kubegraf-org-runners is
+# never given a runner. It does not fail. It sits in the queue until someone
+# cancels it. agentenx.com is the first repo with the same exception.
+#
+# Do not widen the shared group instead. That would let any public repo, fork
+# pull requests included, run on runners inside the VPC.
+#
+# The reasons for the rule do not apply here: no secrets, no VPC access, no
+# cluster access. It builds a static page from public source.
+#
+# The site is served from a SUBPATH. `base` in vite.config.ts must match the
+# repo name, or the page loads with no CSS and no JavaScript while the deploy
+# stays green. The check below fails the job instead.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest      # see the header, public repo
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck and build
+        run: npm run build
+
+      - name: Refuse to publish a build with the wrong base path
+        run: |
+          set -euo pipefail
+          if ! grep -q 'src="/lanther.ai/assets/' dist/index.html; then
+            echo "::error::dist/index.html does not reference /lanther.ai/assets/. Check base in vite.config.ts"
+            grep -oE '(href|src)="[^"]*"' dist/index.html | head -20
+            exit 1
+          fi
+          for f in robots.txt sitemap.xml og.png favicon.svg 404.html; do
+            test -s "dist/$f" || { echo "::error::dist/$f is missing"; exit 1; }
+          done
+          # Jekyll would otherwise skip files and folders that start with _.
+          touch dist/.nojekyll
+          echo "build ok"
+
+      - if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest      # see the header, public repo
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Confirm the published site answers
+        run: |
+          set -euo pipefail
+          URL="https://kubegraf.github.io/lanther.ai/"
+          for i in $(seq 1 10); do
+            code="$(curl -s -o /dev/null -w '%{http_code}' -L "$URL" || true)"
+            echo "attempt $i: HTTP $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 12
+          done
+          echo "::error::$URL did not answer 200"
+          exit 1
